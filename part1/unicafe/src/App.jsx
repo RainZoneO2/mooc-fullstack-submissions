@@ -15,6 +15,10 @@ const App = () => {
   const [countNeutral, setCountNeutral] = useState(0)
   const [countBad, setCountBad] = useState(0)
 
+  const all = countGood + countNeutral + countBad
+  const average = (countGood - countBad) / all
+  const positive = countGood / all
+
   const increaseGoodCount = () => {
     setCountGood(countGood + 1)
   }
@@ -33,9 +37,12 @@ const App = () => {
       <Button handleClick={increaseBadCount} text="Bad" />
 
       <h1> Statistics </h1>
-      <Display text={"Good:" + countGood} />
-      <Display text={"Neutral:" + countNeutral} />
-      <Display text={"Bad:" + countBad} />
+      <Display text={"Good: " + countGood} />
+      <Display text={"Neutral: " + countNeutral} />
+      <Display text={"Bad: " + countBad} />
+      <Display text={"All: " + all} />
+      <Display text={"Average: " + average} />
+      <Display text={"Positive: " + positive} />
     </>
   )
 }

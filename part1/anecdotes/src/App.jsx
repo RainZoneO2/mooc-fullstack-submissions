@@ -37,7 +37,10 @@ const App = () => {
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
 
   const selectNext = () => {
-    const ran = getRandomInt(anecdotes.length)
+    let ran = getRandomInt(anecdotes.length)
+    while (ran === selected) {
+      ran = getRandomInt(anecdotes.length)
+    }
     setSelected(ran)
     console.log('Generated...',ran)
   }

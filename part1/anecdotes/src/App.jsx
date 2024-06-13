@@ -10,6 +10,18 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+const Anecdote = (props) => {
+  return (
+    <div>
+      <p>{props.anecdotes[props.selected]}</p>
+      <p>Votes: {props.points[props.selected]}</p>
+      <Button handleClick={props.voteOnAnecdote} text="Vote"/>
+      <Button handleClick={props.selectNext} text="Next Anecdote"/>
+    </div>
+    
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -37,12 +49,22 @@ const App = () => {
     setPoints(cPoints)
   }
 
+  const getHighestVotedAnecdote = () => {
+    return points.indexOf(Math.max.apply(null, points))
+  }
+
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p>Votes: {points[selected]}</p>
-      <Button handleClick={voteOnAnecdote} text="Vote"/>
-      <Button handleClick={selectNext} text="Next Anecdote"/>
+      <h1>Anecdote of the day</h1>
+      <Anecdote 
+      anecdotes={anecdotes}
+      selected={selected}
+      points={points}
+      voteOnAnecdote={voteOnAnecdote}
+      selectNext={selectNext}
+      />
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[getHighestVotedAnecdote()]}</p>
     </div>
   )
 }

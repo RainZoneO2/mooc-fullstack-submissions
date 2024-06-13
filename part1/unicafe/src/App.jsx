@@ -8,6 +8,18 @@ const Button = ({handleClick, text}) => (
 
 const Display = ({text}) => <p>{text}</p>
 
+const StatisticLine = ({label, value}) => {
+  return (
+    <> 
+      {
+        (label == "Positive")
+        ? <Display text={label + ": " + value + "%"}/>
+        : <Display text={label + ": " + value}/>
+      }
+    </>
+  )
+}
+
 const Statistics = (props) => {
   if (props.all === 0) {
     return (
@@ -16,16 +28,16 @@ const Statistics = (props) => {
       </div>
     )
   }
-  
+
   return (
-    <>
-      <Display text={"Good: " + props.countGood} />
-      <Display text={"Neutral: " + props.countNeutral} />
-      <Display text={"Bad: " + props.countBad} />
-      <Display text={"All: " + props.all} />
-      <Display text={"Average: " + props.average} />
-      <Display text={"Positive: " + props.positive} />
-    </>
+    <div>
+      <StatisticLine label="Good" value={props.countGood} />
+      <StatisticLine label="Neutral" value={props.countNeutral} />
+      <StatisticLine label="Bad" value={props.countBad} />
+      <StatisticLine label="Total" value={props.all} />
+      <StatisticLine label="Average" value={props.average} />
+      <StatisticLine label="Positive" value={props.positive} />
+    </div>
   )
 }
 

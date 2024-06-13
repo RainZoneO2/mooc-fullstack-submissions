@@ -9,6 +9,14 @@ const Button = ({handleClick, text}) => (
 const Display = ({text}) => <p>{text}</p>
 
 const Statistics = (props) => {
+  if (props.all === 0) {
+    return (
+      <div>
+        <p>No feedback has been given yet.</p>
+      </div>
+    )
+  }
+  
   return (
     <>
       <Display text={"Good: " + props.countGood} />

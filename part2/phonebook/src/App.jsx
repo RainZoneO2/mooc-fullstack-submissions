@@ -2,12 +2,14 @@ import { useState } from 'react'
 
 function App() {
   const [persons, setPersons] = useState([
-    { name: 'Ghaith A',
-      number: '+1 (111) 222-3333'
-    }
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [newFilter, setNewFilter] = useState('')
 
   const addNewPerson = (event) => {
     event.preventDefault()  
@@ -18,7 +20,8 @@ function App() {
 
     const personObject = {
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: persons.length + 1
     }
 
     setPersons(persons.concat(personObject))
@@ -26,12 +29,23 @@ function App() {
     setNewNumber('')
   }
 
+  const escapeRegex = (string) => {
+    return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
+  }
+
+  const regex = new RegExp(`^(${escapeRegex(newFilter)})`, 'i')
+  const peopleToShow = persons.filter(person => regex.test(person.name))
+  
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
+  }
+
+  const handleFilterChange = (event) => {
+    setNewFilter(event.target.value)
   }
 
   return (
@@ -43,8 +57,11 @@ function App() {
         <div><button type="submit" onClick={addNewPerson}>Add</button></div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => 
-        <p key={person.name}>{person.name} {person.number}</p>
+      <div>
+        Filter for: <input value={newFilter} onChange={handleFilterChange}/>
+      </div>
+      {peopleToShow.map(person => 
+        <p key={person.id}>{person.name} {person.number}</p>
       )}
     </div>
   )

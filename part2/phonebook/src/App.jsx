@@ -7,7 +7,12 @@ function App() {
   const [newName, setNewName] = useState('')
 
   const addNewPerson = (event) => {
-    event.preventDefault()
+    event.preventDefault()  
+
+    if (persons.filter((person) => person.name === newName).length !== 0) {
+      return alert(`${newName} is already added to the phonebook.`)
+    }
+
     const personObject = {
       name: newName
     }
@@ -23,14 +28,13 @@ function App() {
 
   return (
     <div>
-      <div>debug: {newName}</div>
       <h2>Phonebook</h2>
       <form>
         <div>
           Name: <input value={newName} onChange={handleNameChange}/>
         </div>
         <div>
-          <button type="submit" onClick={addNewPerson}>add</button>
+          <button type="submit" onClick={addNewPerson}>Add</button>
         </div>
       </form>
       <h2>Numbers</h2>

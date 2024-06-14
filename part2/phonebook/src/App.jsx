@@ -1,6 +1,40 @@
 import { useState } from 'react'
 
-function App() {
+const Button = ({type, handleClick, btnText}) => (
+  <div>
+    <button type={type} onClick={handleClick}>
+      {btnText}
+    </button>
+  </div>
+)
+
+const PersonForm = ({handleNameChange, nameValue, handleNumberChange, numberValue, addPerson}) => {
+  return (
+    <form>
+        <div>Name: <input value={nameValue} onChange={handleNameChange}/></div>
+        <div>Number: <input value={numberValue} onChange={handleNumberChange}/></div>
+        <Button type="submit" handleClick={addPerson} btnText='Add'/>
+    </form>
+  )
+}
+
+const Filter = ({filter, handleFilterChange}) => {
+  return (
+    <div><strong>
+      Filter for: <input value={filter} onChange={handleFilterChange}/>
+    </strong></div>
+  )
+}
+
+const PersonsDisplay = ({persons}) => {
+  return (
+    persons.map(person => 
+      <p key={person.id}>{person.name} {person.number}</p>
+    )
+  )
+}
+
+const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
     { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
@@ -50,19 +84,18 @@ function App() {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <form>
-        <div>Name: <input value={newName} onChange={handleNameChange}/></div>
-        <div>Number: <input value={newNumber} onChange={handleNumberChange}/></div>
-        <div><button type="submit" onClick={addNewPerson}>Add</button></div>
-      </form>
+      <h1>Phonebook</h1>
+      <h2>Add a new Person</h2>
+      <PersonForm 
+        handleNameChange={handleNameChange} 
+        nameValue={newName}
+        handleNumberChange={handleNumberChange}
+        numberValue={newNumber}
+        addPerson={addNewPerson}
+      />
       <h2>Numbers</h2>
-      <div>
-        Filter for: <input value={newFilter} onChange={handleFilterChange}/>
-      </div>
-      {peopleToShow.map(person => 
-        <p key={person.id}>{person.name} {person.number}</p>
-      )}
+      <Filter filter={newFilter} handleFilterChange={handleFilterChange}/>
+      <PersonsDisplay persons={peopleToShow}/>
     </div>
   )
 }

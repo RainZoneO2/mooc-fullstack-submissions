@@ -37,6 +37,14 @@ const App = () => {
     })
   }
 
+  const deleteHandler = (event) => {
+    event.preventDefault()
+
+    if (window.confirm("Do you really want to delete?")) {
+      console.log('Delete..', event.target.tagName)
+    }
+  }
+
   const escapeRegex = (string) => {
     return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
   }
@@ -69,7 +77,7 @@ const App = () => {
       />
       <h2>Numbers</h2>
       <Filter filter={newFilter} handleFilterChange={handleFilterChange}/>
-      <PersonsDisplay persons={peopleToShow}/>
+      <PersonsDisplay persons={peopleToShow} deleteHandler={deleteHandler}/>
     </div>
   )
 }

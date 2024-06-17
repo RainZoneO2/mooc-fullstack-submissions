@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import PersonsDisplay from './components/PersonDisplay'
-import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,10 +11,9 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('')
 
   useEffect(() => {
-    console.log('Effect')
-    axios.get('http://localhost:3001/persons').then(response => {
+    personService.getAll().then(initialPersons => {
       console.log('Promise fulfilled..')
-      setPersons(response.data)
+      setPersons(initialPersons)
     })
   }, [])
 
@@ -31,12 +30,11 @@ const App = () => {
       id: persons.length + 1
     }
     
-    axios.post('http://localhost:3001/persons', personObject).then(response => {
-      setPersons(persons.concat(response.data))
+    personService.create(personObject).then(returnedPerson => {
+      setPersons(persons.concat(returnedPerson))
+      setNewName('')
+      setNewNumber('')
     })
-
-    setNewName('')
-    setNewNumber('')
   }
 
   const escapeRegex = (string) => {

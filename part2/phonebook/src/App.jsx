@@ -38,10 +38,11 @@ const App = () => {
   }
 
   const deleteHandler = (event) => {
-    event.preventDefault()
-
     if (window.confirm("Do you really want to delete?")) {
-      console.log('Delete..', event.target.tagName)
+      console.log('Deleting..', event.target.id)
+      personService.remove(event.target.id)
+      const newPersons = persons.filter(person => person.id !== event.target.id) 
+      setPersons(newPersons)
     }
   }
 

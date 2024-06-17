@@ -5,7 +5,7 @@ const PersonsDisplay = ({persons, deleteHandler}) => {
       persons.map(person => 
         <p key={person.id}>
           {person.name} {person.number}
-          <Button type="submit" handleClick={deleteHandler} btnText='Delete'/>
+          <Button id={person.id} type="button" handleClick={deleteHandler} btnText='Delete'/>
         </p>
       )
     )

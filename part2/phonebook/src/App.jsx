@@ -11,7 +11,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
-
+  const [errorMessage, setErrorMessage] = useState(null)
+  
   useEffect(() => {
     personService.getAll().then(initialPersons => {
       console.log('Promise fulfilled..')
@@ -28,13 +29,17 @@ const App = () => {
     }
     
     if (persons.filter((person) => (person.name === newName) && (person.number === newNumber)).length !== 0) {
-      return alert(`${newName} is already added`)
+      setErrorMessage(`${newName} is already added.`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+      return
     }
 
     if (persons.filter((person) => (person.name === newName) && (person.number !== newNumber)).length !== 0) {
       const person = persons.find(p => p.name === newName)
       const changedPerson = {...person, number: newNumber}
-      updatePerson(changedPerson)
+      return updatePerson(changedPerson)
     }
 
     personService.create(personObject).then(returnedPerson => {
@@ -61,9 +66,14 @@ const App = () => {
           setSuccessMessage(null)
         }, 3000)
       }).catch(error => {
-        alert('Error:', error)
+        setErrorMessage(
+          `${changedPerson.name} was already deleted from the server.`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 3000)
+        setPersons(persons.filter(p => p.id !== changedPerson.id))
       })
-      
     }
   }
 
@@ -98,7 +108,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={successMessage} />
+      <Notification message={(errorMessage !== null) ? errorMessage : successMessage} className={(errorMessage !== null) ? 'error' : 'success'}/>
       <h2>Add a new Person</h2>
       <PersonForm 
         handleNameChange={handleNameChange} 

@@ -3,12 +3,14 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import PersonsDisplay from './components/PersonDisplay'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {
     personService.getAll().then(initialPersons => {
@@ -25,6 +27,10 @@ const App = () => {
       number: newNumber,
     }
     
+    if (persons.filter((person) => (person.name === newName) && (person.number === newNumber)).length !== 0) {
+      return alert(`${newName} is already added`)
+    }
+
     if (persons.filter((person) => (person.name === newName) && (person.number !== newNumber)).length !== 0) {
       const person = persons.find(p => p.name === newName)
       const changedPerson = {...person, number: newNumber}
@@ -35,6 +41,12 @@ const App = () => {
       setPersons(persons.concat(returnedPerson))
       setNewName('')
       setNewNumber('')
+      setSuccessMessage(
+        `${returnedPerson.name} added successfully`
+      )
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 3000)
     })
   }
 
@@ -42,9 +54,16 @@ const App = () => {
     if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
       personService.update(changedPerson.id, changedPerson).then(returnedPerson => {
         setPersons(persons.map(person => person.id !== changedPerson.id ? person : returnedPerson))
+        setSuccessMessage(
+          `${returnedPerson.name} updated successfully`
+        )
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 3000)
       }).catch(error => {
         alert('Error:', error)
       })
+      
     }
   }
 
@@ -79,6 +98,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={successMessage} />
       <h2>Add a new Person</h2>
       <PersonForm 
         handleNameChange={handleNameChange} 

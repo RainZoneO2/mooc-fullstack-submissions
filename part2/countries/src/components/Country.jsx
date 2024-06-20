@@ -1,8 +1,10 @@
-const Country = ({name, showDetailButton, showDetailHandler}) => {
+const Country = ({country, showDetailButton, showDetailHandler, setCountriesToShow}) => {
     return (
         <p> 
-            {name} 
-            {showDetailButton && <button onClick={showDetailHandler}>Details</button>}
+            {country.name.common} 
+            {showDetailButton && <button onClick={() => {
+                setCountriesToShow([country])
+            }}>Details</button>}
         </p>
     )
 }

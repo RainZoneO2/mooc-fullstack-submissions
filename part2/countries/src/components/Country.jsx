@@ -1,6 +1,9 @@
-const Country = ({name}) => {
+const Country = ({name, showDetailButton, showDetailHandler}) => {
     return (
-        <p> {name} </p>
+        <p> 
+            {name} 
+            {showDetailButton && <button onClick={showDetailHandler}>Details</button>}
+        </p>
     )
 }
 

@@ -23,7 +23,6 @@ function App() {
     })
   }, [])
 
-
   const handleFilterChange = (event) => {
     setNewFilter(event.target.value)
   }
@@ -35,9 +34,13 @@ function App() {
       } else if (countriesToShow.length === 1) {
         console.log(countriesToShow[0])
         return <CountryDetails country={countriesToShow[0]}/>
+      } else {
+        return <CountriesList 
+                countriesToShow={countriesToShow} 
+                showDetailButton={true}/>    
       }
     }
-    return <CountriesList countriesToShow={countriesToShow}/>
+    return <CountriesList countriesToShow={countriesToShow} />
   }
 
   return (

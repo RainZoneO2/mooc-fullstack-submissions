@@ -6,9 +6,4 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
-const getCountry = countryName => {
-    const request = axios.get(`${baseUrl}/name/${countryName}`)
-    return request.then(response => response.data)
-}
-
-export default { getAll, getCountry }
+export default { getAll }

@@ -1,3 +1,5 @@
+import WeatherPanel from "./WeatherPanel"
+
 const CountryDetails = ({country}) => {
     const languages = Object.entries(country.languages)
     
@@ -14,6 +16,7 @@ const CountryDetails = ({country}) => {
             </ul>
             <h2>Flag</h2>
             <img src={country.flags['png']} alt={country.flags['alt']} />
+            <WeatherPanel cityName={country.capital[0]} lat={country.capitalInfo.latlng[0]} lng={country.capitalInfo.latlng[1]}/>
         </div>
     )
 }
